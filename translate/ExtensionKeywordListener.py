@@ -2,8 +2,7 @@ from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
 from ulauncher.api.shared.action.DoNothingAction import DoNothingAction
-from LanguageDiscriminator import LanguageDiscriminator
-from translate.LanguageDiscriminator import ParseQueryError
+from translate.LanguageDiscriminator import ParseQueryError, LanguageDiscriminator
 
 
 class ExtensionKeywordListener(EventListener):
