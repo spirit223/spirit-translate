@@ -16,4 +16,4 @@ class ExtensionKeywordListener(EventListener):
     def on_event(self, event, extension):
         query = event.get_argument()
         return self.get_action_to_render(name="translate",
-                                         description="Example: yd apple %s " % query or '')
+                                         description="Example: yd apple %s " % (query if query is not None else ""))
