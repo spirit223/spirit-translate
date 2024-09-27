@@ -14,6 +14,20 @@
         "name": "translate",
         "description": "translate zh to en or en to zh by youdao",
         "default_value": "yd"
+      },
+      {
+        "id": "appId",
+        "type": "input",
+        "name": "app ID",
+        "description": "app ID",
+        "default_value": "****************"
+      },
+      {
+        "id": "appSecrit",
+        "type": "input",
+        "name": "app Secrit",
+        "description": "app Secrit",
+        "default_value": "********************************"
       }
     ]
   }
