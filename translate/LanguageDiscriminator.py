@@ -28,7 +28,7 @@ class LanguageDiscriminator:
         chinese_count = len(re.findall(r'[\u4e00-\u9fa5]', text))
         english_count = len(re.findall(r'[a-zA-Z]', text))
 
-        if chinese_count is 0 and english_count is 0:
+        if chinese_count == 0 and english_count == 0:
             raise ParseQueryError("text [%s] parse failed" % text)
         elif chinese_count > english_count:
             return 'zh-cn'
