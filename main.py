@@ -46,6 +46,7 @@ class ItemEnterEventListener(EventListener):
         # do additional actions here...
 
         # you may want to return another list of results
+        # should click item with named new_name
         return RenderResultListAction([ExtensionResultItem(icon='images/icon.png',
                                                            name=data['new_name'],
                                                            on_enter=HideWindowAction())])
