@@ -37,19 +37,6 @@ class KeywordQueryEventListener(EventListener):
 
         return RenderResultListAction(items)
 
-class ItemEnterEventListener(EventListener):
-
-    def on_event(self, event, extension):
-        # event is instance of ItemEnterEvent
-
-        data = event.get_data()
-        # do additional actions here...
-
-        # you may want to return another list of results
-        # should click item with named new_name
-        return RenderResultListAction([ExtensionResultItem(icon='images/icon.png',
-                                                           name=data['new_name'],
-                                                           on_enter=HideWindowAction())])
 
 if __name__ == '__main__':
     TranslateExtension().run()
