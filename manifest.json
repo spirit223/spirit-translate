@@ -1,0 +1,19 @@
+{
+    "required_api_version": "2",
+    "name": "spirit translate",
+    "description": "translate zh to en or en to zh by youdao",
+    "developer_name": "Spirit",
+    "icon": "images/icon.png",
+    "options": {
+      "query_debounce": 0.1
+    },
+    "preferences": [
+      {
+        "id": "yd",
+        "type": "keyword",
+        "name": "spirit-translate",
+        "description": "translate zh to en or en to zh by youdao",
+        "default_value": "yd"
+      }
+    ]
+  }
