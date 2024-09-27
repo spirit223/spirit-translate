@@ -11,7 +11,7 @@
       {
         "id": "yd",
         "type": "keyword",
-        "name": "spirit-translate",
+        "name": "translate",
         "description": "translate zh to en or en to zh by youdao",
         "default_value": "yd"
       }
