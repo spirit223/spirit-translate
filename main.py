@@ -28,12 +28,26 @@ class KeywordQueryEventListener(EventListener):
         """
         items = []
         for i in range(5):
+            data = {'new_name': 'Item %s was clicked' % i}
             items.append(ExtensionResultItem(icon='images/icon.png',
                                              name='Item %s' % i,
                                              description='Item description %s' % i,
-                                             on_enter=HideWindowAction()))
+                                             on_enter=ExtensionCustomAction(data, keep_app_open=True)))
 
         return RenderResultListAction(items)
+
+class ItemEnterEventListener(EventListener):
+
+    def on_event(self, event, extension):
+        # event is instance of ItemEnterEvent
+
+        data = event.get_data()
+        # do additional actions here...
+
+        # you may want to return another list of results
+        return RenderResultListAction([ExtensionResultItem(icon='images/icon.png',
+                                                           name=data['new_name'],
+                                                           on_enter=HideWindowAction())])
 
 if __name__ == '__main__':
     TranslateExtension().run()
