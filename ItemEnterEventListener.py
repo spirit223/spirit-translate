@@ -1,4 +1,5 @@
 from ulauncher.api.client.EventListener import EventListener
+from ulauncher.api.shared.action.HideWindowAction import HideWindowAction
 
 class ItemEnterEventListener(EventListener):
 

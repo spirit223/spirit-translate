@@ -6,8 +6,9 @@ from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.event import KeywordQueryEvent, ItemEnterEvent
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
-from ulauncher.api.shared.action.HideWindowAction import HideWindowAction
 from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
+
+from ItemEnterEventListener import ItemEnterEventListener
 
 
 class TranslateExtension(Extension):
@@ -33,7 +34,7 @@ class KeywordQueryEventListener(EventListener):
             items.append(ExtensionResultItem(icon='images/icon.png',
                                              name='Item %s' % i,
                                              description='Item description %s' % i,
-                                             on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+                                             on_enter=ItemEnterEventListener(data, keep_app_open=True)))
 
         return RenderResultListAction(items)
 
