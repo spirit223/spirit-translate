@@ -30,7 +30,7 @@ class ExtensionKeywordListener(EventListener):
         else:
             try:
                 res = RequestBuilder.build(query)
-                print(res.status)
+                print(res.data)
             except ParseQueryError:
                 return self.get_action_to_render(name="Incorrect input",
                                                  description="Example: yd apple %s" % query)
