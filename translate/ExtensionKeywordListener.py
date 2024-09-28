@@ -7,13 +7,12 @@ from translate.PreferencesInfo import PreferencesInfo
 from translate.RequestBuilder import RequestBuilder
 import json
 import traceback
-import threading
+import asyncio
 
 
 class ExtensionKeywordListener(EventListener):
     def __init__(self):
         self.countdown_time = PreferencesInfo.delay
-        self.timer = None
 
     def get_action_to_render(self, name, description, on_enter=None):
         """
@@ -30,13 +29,11 @@ class ExtensionKeywordListener(EventListener):
 
         return RenderResultListAction([item])
 
-    def on_event(self, event, extension):
-        if self.timer is not None:
-            self.timer.cancel()
-        self.timer = threading.Timer(self.countdown_time, self.handle_event, [event])
-        self.timer.start()
+    async def on_event(self, event, extension):
+        await asyncio.sleep(self.countdown_time)
+        return self.process_event(event)
 
-    def handle_event(self, event):
+    def process_event(self, event):
         text = event.get_argument()
         if text is None:
             return self.get_action_to_render(name="translate",
@@ -46,7 +43,6 @@ class ExtensionKeywordListener(EventListener):
                 res = RequestBuilder.build(text)
                 # res.data.translation is str array contain translate result
                 translation_arr = json.loads(res.data)
-                items = []
                 if 'translation' not in translation_arr:
                     raise TranslateFailException("translate failed, non key 'translation', input is %s" % text)
 
