@@ -14,6 +14,6 @@ get youdao api
 # Configure
 
 ## todo
-- get id and secrit 
-- build request
-- parse response
+- error deal    
+  - 确保原文编码为UTF-8
+  - 

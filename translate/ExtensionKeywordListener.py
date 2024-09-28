@@ -30,6 +30,7 @@ class ExtensionKeywordListener(EventListener):
                                          description="Example: yd apple %s" % query)
         else:
             try:
+                query = str(query, encoding='utf-8')
                 res = RequestBuilder.build(query)
                 print(res.data)
                 # res.data.translation is str array contain translate result
@@ -44,3 +45,6 @@ class ExtensionKeywordListener(EventListener):
             except ParseQueryError:
                 return self.get_action_to_render(name="Incorrect input",
                                                  description="Example: yd apple %s" % query)
+            except Exception as e:
+                return self.get_action_to_render(name="extension error!",
+                                                 description="extension error! %s" % e)
