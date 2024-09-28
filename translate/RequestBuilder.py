@@ -16,7 +16,7 @@ class RequestBuilder:
         url = "openapi.youdao.com"
         path = "/api"
         salt = RequestBuilder.build_slat()
-        cur_time = datetime.now().timestamp()
+        cur_time = int(datetime.now().timestamp())
         app_id = PreferencesInfo.app_id
         app_secret = PreferencesInfo.app_secrit
         if from_lan is None and to_lan is None:
@@ -62,7 +62,7 @@ class RequestBuilder:
         return str(uuid.uuid1().int)
 
     @staticmethod
-    def build_sign(text: str, salt:str, cur_time: float, app_id:str, app_secret:str):
+    def build_sign(text: str, salt:str, cur_time: int, app_id:str, app_secret:str):
         input_str = RequestBuilder.get_input_str(text)
         RequestBuilder.sha256_hash.update(str(app_id + input_str + salt + str(cur_time) + app_secret).encode('utf-8'))
         return RequestBuilder.sha256_hash.hexdigest()
