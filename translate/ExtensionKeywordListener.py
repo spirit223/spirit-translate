@@ -1,5 +1,3 @@
-import time
-
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
@@ -9,12 +7,13 @@ from translate.PreferencesInfo import PreferencesInfo
 from translate.RequestBuilder import RequestBuilder
 import json
 import traceback
+import threading
 
 
 class ExtensionKeywordListener(EventListener):
     def __init__(self):
         self.countdown_time = PreferencesInfo.delay
-        self.is_running = False
+        self.timer = None
 
     def get_action_to_render(self, name, description, on_enter=None):
         """
@@ -32,26 +31,29 @@ class ExtensionKeywordListener(EventListener):
         return RenderResultListAction([item])
 
     def on_event(self, event, extension):
-        self.is_running = True
-        time.sleep(self.countdown_time)
+        if self.timer is not None:
+            self.timer.cancel()
+        self.timer = threading.Timer(self.countdown_time, self.handle_event, [event])
+        self.timer.start()
+
+    def handle_event(self, event):
         text = event.get_argument()
         if text is None:
             return self.get_action_to_render(name="translate",
                                              description="Example: yd apple")
         else:
             try:
-                text = text.encode('utf-8').decode('utf-8')
                 res = RequestBuilder.build(text)
                 # res.data.translation is str array contain translate result
                 translation_arr = json.loads(res.data)
                 items = []
                 if 'translation' not in translation_arr:
                     raise TranslateFailException("translate failed, non key 'translation', input is %s" % text)
-                for item in translation_arr['translation']:
-                    items.append(ExtensionResultItem(name=item,
-                                                     description=item,
-                                                     icon='images/icon.png',
-                                                     on_enter=DoNothingAction()))
+
+                items = [
+                    ExtensionResultItem(name=item, description=item, icon='images/icon.png', on_enter=DoNothingAction())
+                    for item in translation_arr['translation']
+                ]
                 return RenderResultListAction(items)
             except ParseQueryError:
                 return self.get_action_to_render(name="Incorrect input",
