@@ -5,4 +5,5 @@ class PreferencesListener(EventListener):
     app_id = ''
     app_secrit = ''
     def on_event(self, event, extension):
-        print(event.get_argument())
+        print(event['appId'])
+        print(event['appSecrit'])
