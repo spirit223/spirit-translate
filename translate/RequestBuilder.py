@@ -1,6 +1,6 @@
 import hashlib
 import uuid
-import time
+from datetime import datetime
 import http.client
 import urllib.parse
 
@@ -16,7 +16,7 @@ class RequestBuilder:
         url = "openapi.youdao.com"
         path = "/api"
         salt = RequestBuilder.build_slat()
-        cur_time = time.time()
+        cur_time = datetime.now().timestamp()
         app_id = PreferencesInfo.app_id
         app_secret = PreferencesInfo.app_secrit
         if from_lan is None and to_lan is None:
