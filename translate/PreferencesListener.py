@@ -10,6 +10,4 @@ class PreferencesListener(EventListener):
 
 class PreferencesUpdateListener(EventListener):
     def on_event(self, event, extension):
-        print(event.id['appId'])
-        PreferencesListener.app_id = event.id('appId')
-        PreferencesListener.app_secrit = event.id('appSecret')
+        print(event.id)
