@@ -1,3 +1,5 @@
+import time
+
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
@@ -7,14 +9,11 @@ from translate.PreferencesInfo import PreferencesInfo
 from translate.RequestBuilder import RequestBuilder
 import json
 import traceback
-import threading
 
 
-# todo: use timer judge whether user stop input
 class ExtensionKeywordListener(EventListener):
     def __init__(self):
         self.countdown_time = PreferencesInfo.delay
-        self.timer = None
         self.is_running = False
 
     def get_action_to_render(self, name, description, on_enter=None):
@@ -33,14 +32,9 @@ class ExtensionKeywordListener(EventListener):
         return RenderResultListAction([item])
 
     def on_event(self, event, extension):
-        if self.timer:
-            self.timer.cancel()
         self.is_running = True
-        query = event.get_argument()
-        self.timer = threading.Timer(self.countdown_time, self.callback(query))
-        self.timer.start()
-
-    def callback(self, text):
+        time.sleep(self.countdown_time)
+        text = event.get_argument()
         if text is None:
             return self.get_action_to_render(name="translate",
                                              description="Example: yd apple")
@@ -48,7 +42,6 @@ class ExtensionKeywordListener(EventListener):
             try:
                 text = text.encode('utf-8').decode('utf-8')
                 res = RequestBuilder.build(text)
-                print(res.data)
                 # res.data.translation is str array contain translate result
                 translation_arr = json.loads(res.data)
                 items = []
