@@ -46,7 +46,7 @@ class ExtensionKeywordListener(EventListener):
                 translation_arr = json.loads(res.data)
                 items = []
                 if 'translation' not in translation_arr:
-                    raise TranslateFailException("translate failed, non key 'translation'")
+                    raise TranslateFailException("translate failed, non key 'translation', input is %s" % text)
                 for item in translation_arr['translation']:
                     items.append(ExtensionResultItem(name=item,
                                                      description=item,
