@@ -29,9 +29,12 @@ class ExtensionKeywordListener(EventListener):
 
         return RenderResultListAction([item])
 
-    async def on_event(self, event, extension):
+    async def handle_event(self, event):
         await asyncio.sleep(self.countdown_time)
         return self.process_event(event)
+
+    def on_event(self, event, extension):
+        asyncio.create_task(self.handle_event(event))  # 使用 create_task 来调度异步任务
 
     def process_event(self, event):
         text = event.get_argument()
