@@ -4,6 +4,7 @@ from ulauncher.api.shared.action.RenderResultListAction import RenderResultListA
 from ulauncher.api.shared.action.DoNothingAction import DoNothingAction
 from translate.LanguageDiscriminator import ParseQueryError, LanguageDiscriminator
 from translate.RequestBuilder import RequestBuilder
+import json
 
 
 class ExtensionKeywordListener(EventListener):
@@ -32,7 +33,8 @@ class ExtensionKeywordListener(EventListener):
                 res = RequestBuilder.build(query)
                 print(res.data)
                 # res.data.translation is str array contain translate result
-                return RenderResultListAction(res.data['translation'])
+                translation_arr = json.loads(res.data)
+                return RenderResultListAction(translation_arr)
             except ParseQueryError:
                 return self.get_action_to_render(name="Incorrect input",
                                                  description="Example: yd apple %s" % query)
