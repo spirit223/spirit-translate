@@ -28,6 +28,13 @@
         "name": "app Secrit",
         "description": "app Secrit",
         "default_value": "********************************"
+      },
+      {
+        "id": "delay",
+        "type": "input",
+        "name": "translate delay",
+        "description": "How many seconds after the input ends to perform translation",
+        "default_value": 2
       }
     ]
   }
