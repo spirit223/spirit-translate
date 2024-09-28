@@ -31,6 +31,8 @@ class ExtensionKeywordListener(EventListener):
             try:
                 res = RequestBuilder.build(query)
                 print(res.data)
+                # res.data.translation is str array contain translate result
+                return RenderResultListAction(res.data.translation)
             except ParseQueryError:
                 return self.get_action_to_render(name="Incorrect input",
                                                  description="Example: yd apple %s" % query)
