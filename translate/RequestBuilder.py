@@ -64,6 +64,13 @@ class RequestBuilder:
     @staticmethod
     def build_sign(text: str, salt:str, cur_time: int, app_id:str, app_secret:str):
         input_str = RequestBuilder.get_input_str(text)
+        print("text is [%s]" % text)
+        print("input_str is [%s]" % input_str)
+        print("salt is [%s]" % salt)
+        print("cur_time is [%s]" % str(cur_time))
+        print("app_id is [%s]" % str(app_id))
+        print("app_secret is [%s]" % str(app_secret))
+
         RequestBuilder.sha256_hash.update(str(app_id + input_str + str(salt) + str(cur_time) + app_secret).encode('utf-8'))
         return RequestBuilder.sha256_hash.hexdigest()
 
