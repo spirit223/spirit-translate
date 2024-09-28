@@ -34,7 +34,13 @@ class ExtensionKeywordListener(EventListener):
                 print(res.data)
                 # res.data.translation is str array contain translate result
                 translation_arr = json.loads(res.data)
-                return RenderResultListAction(translation_arr)
+                items = []
+                for item in translation_arr:
+                    items.append(ExtensionResultItem(name=item,
+                                               description=item,
+                                               icon='images/icon.png',
+                                               on_enter=DoNothingAction()))
+                return RenderResultListAction(items)
             except ParseQueryError:
                 return self.get_action_to_render(name="Incorrect input",
                                                  description="Example: yd apple %s" % query)
