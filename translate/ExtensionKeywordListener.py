@@ -3,6 +3,7 @@ from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
 from ulauncher.api.shared.action.DoNothingAction import DoNothingAction
 from translate.LanguageDiscriminator import ParseQueryError, LanguageDiscriminator
+from translate.RequestBuilder import RequestBuilder
 
 
 class ExtensionKeywordListener(EventListener):
@@ -28,9 +29,8 @@ class ExtensionKeywordListener(EventListener):
                                          description="Example: yd apple %s" % query)
         else:
             try:
-                lang_type = LanguageDiscriminator.detect_language(query)
-                # todo get appId and appSecrit builder request and translate it
-                # need configure appId and secret key
+                res = RequestBuilder.build(query)
+                print(res.status)
             except ParseQueryError:
                 return self.get_action_to_render(name="Incorrect input",
                                                  description="Example: yd apple %s" % query)

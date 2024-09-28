@@ -2,7 +2,7 @@ from ulauncher.api.client.Extension import Extension
 from ulauncher.api.shared.event import (KeywordQueryEvent, PreferencesEvent, PreferencesUpdateEvent)
 
 from translate.ExtensionKeywordListener import ExtensionKeywordListener
-from translate.PreferencesListener import PreferencesListener, PreferencesUpdateListener
+from translate.PreferencesInfo import PreferencesListener, PreferencesUpdateListener
 
 
 class TranslateExtension(Extension):
