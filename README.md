@@ -14,4 +14,6 @@ get youdao api
 # Configure
 
 ## todo
-how to determine the type of language
+- get id and secrit 
+- build request
+- parse response

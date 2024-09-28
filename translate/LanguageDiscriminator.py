@@ -10,9 +10,9 @@ class LanguageDiscriminator:
         detects the language of a given text
 
         if the number of english characters is greater than the chinese number of characters, return en
-        else return zh-cn
+        else return zh-CHS
 
-        note: the number of chinese and english characters equal, return zh-cn
+        note: the number of chinese and english characters equal, return zh-CHS
 
         any other condition will raise ParseQueryError
         :param text: need to judge the language
@@ -31,11 +31,11 @@ class LanguageDiscriminator:
         if chinese_count == 0 and english_count == 0:
             raise ParseQueryError("text [%s] parse failed" % text)
         elif chinese_count > english_count:
-            return 'zh-cn'
+            return 'zh-CHS'
         elif english_count > chinese_count:
             return 'en'
         elif english_count == chinese_count:
-            return 'zh-cn'
+            return 'zh-CHS'
         else:
             raise ParseQueryError("text [%s] parse failed" % text)
 
