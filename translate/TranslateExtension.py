@@ -1,8 +1,8 @@
 from ulauncher.api.client.Extension import Extension
-from ulauncher.api.shared.event import (KeywordQueryEvent,PreferencesEvent)
+from ulauncher.api.shared.event import (KeywordQueryEvent, PreferencesEvent, PreferencesUpdateEvent)
 
 from translate.ExtensionKeywordListener import ExtensionKeywordListener
-from translate.PreferencesListener import PreferencesListener
+from translate.PreferencesListener import PreferencesListener, PreferencesUpdateListener
 
 
 class TranslateExtension(Extension):
@@ -11,3 +11,4 @@ class TranslateExtension(Extension):
         super(TranslateExtension, self).__init__()
         self.subscribe(KeywordQueryEvent, ExtensionKeywordListener())
         self.subscribe(PreferencesEvent, PreferencesListener())
+        self.subscribe(PreferencesUpdateEvent, PreferencesUpdateListener())
