@@ -30,7 +30,7 @@ class ExtensionKeywordListener(EventListener):
                                          description="Example: yd apple %s" % query)
         else:
             try:
-                query = str(query, encoding='utf-8')
+                query = query.encode('utf-8')
                 res = RequestBuilder.build(query)
                 print(res.data)
                 # res.data.translation is str array contain translate result
