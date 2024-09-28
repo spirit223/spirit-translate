@@ -35,7 +35,7 @@ class ExtensionKeywordListener(EventListener):
                 # res.data.translation is str array contain translate result
                 translation_arr = json.loads(res.data)
                 items = []
-                for item in translation_arr:
+                for item in translation_arr['translation']:
                     items.append(ExtensionResultItem(name=item,
                                                description=item,
                                                icon='images/icon.png',
