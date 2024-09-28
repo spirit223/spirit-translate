@@ -21,7 +21,7 @@ class RequestBuilder:
         app_secret = PreferencesInfo.app_secrit
         if from_lan is None and to_lan is None:
             from_lan = LanguageDiscriminator.detect_language(text)
-            if from_lan is 'zh-CHS':
+            if from_lan == 'zh-CHS':
                 to_lan = 'en'
             else:
                 to_lan = 'zh-CHS'
