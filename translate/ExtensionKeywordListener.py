@@ -27,7 +27,7 @@ class ExtensionKeywordListener(EventListener):
         query = event.get_argument()
         if query is None:
             return self.get_action_to_render(name="translate",
-                                         description="Example: yd apple %s" % query)
+                                         description="Example: yd apple")
         else:
             try:
                 query = query.encode('utf-8')
