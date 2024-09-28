@@ -46,6 +46,6 @@ class ExtensionKeywordListener(EventListener):
                 return self.get_action_to_render(name="Incorrect input",
                                                  description="Example: yd apple %s" % query)
             except Exception as e:
-                print(e.__cause__)
+                e.with_traceback()
                 return self.get_action_to_render(name="extension error!",
                                                  description="extension error! %s" % e)
