@@ -5,6 +5,7 @@ from ulauncher.api.shared.action.DoNothingAction import DoNothingAction
 from translate.LanguageDiscriminator import ParseQueryError, LanguageDiscriminator
 from translate.RequestBuilder import RequestBuilder
 import json
+import traceback
 
 
 class ExtensionKeywordListener(EventListener):
@@ -46,6 +47,6 @@ class ExtensionKeywordListener(EventListener):
                 return self.get_action_to_render(name="Incorrect input",
                                                  description="Example: yd apple %s" % query)
             except Exception as e:
-                print(e.__traceback__)
+                traceback.print_exc()
                 return self.get_action_to_render(name="extension error!",
-                                                 description="extension error! %s" % e)
+                                                 description="%s" % e)
