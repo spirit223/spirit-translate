@@ -37,6 +37,8 @@ class ExtensionKeywordListener(EventListener):
                 # res.data.translation is str array contain translate result
                 translation_arr = json.loads(res.data)
                 items = []
+                if 'translation' not in translation_arr:
+                    raise TranslateFailException("translate failed, non key 'translation'")
                 for item in translation_arr['translation']:
                     items.append(ExtensionResultItem(name=item,
                                                description=item,
@@ -46,7 +48,13 @@ class ExtensionKeywordListener(EventListener):
             except ParseQueryError:
                 return self.get_action_to_render(name="Incorrect input",
                                                  description="Example: yd apple %s" % query)
+            except TranslateFailException as e:
+                return self.get_action_to_render(name="translate failed",
+                                                 description="reason: %s" % e)
             except Exception as e:
                 traceback.print_exc()
                 return self.get_action_to_render(name="extension error!",
                                                  description="%s" % e)
+
+class TranslateFailException(Exception):
+    pass
