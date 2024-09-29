@@ -7,19 +7,23 @@ from translate.PreferencesInfo import PreferencesInfo
 from translate.RequestBuilder import RequestBuilder
 import json
 import traceback
-import asyncio
+import threading
+
+from translate.TranslateLoop import TranslateLoop
 
 
+# todo: use timer judge whether user stop input, timer don't process it!
 class ExtensionKeywordListener(EventListener):
     def __init__(self):
-        self.countdown_time = PreferencesInfo.delay
+        self.tran_count = 0
+
 
     def get_action_to_render(self, name, description, on_enter=None):
         """
         generate result item
         :param name: title
         :param description: second title
-        :param on_enter: what to do
+        :param on_enter: what to do(todo copy result by ItemCustomAction)
         :return: RenderResultListAction
         """
         item = ExtensionResultItem(name=name,
@@ -29,42 +33,43 @@ class ExtensionKeywordListener(EventListener):
 
         return RenderResultListAction([item])
 
-    async def handle_event(self, event):
-        await asyncio.sleep(self.countdown_time)
-        return self.process_event(event)
-
     def on_event(self, event, extension):
-        asyncio.create_task(self.handle_event(event))  # 使用 create_task 来调度异步任务
+        query = event.get_argument()
 
-    def process_event(self, event):
-        text = event.get_argument()
+    def callback(self, text):
         if text is None:
             return self.get_action_to_render(name="translate",
                                              description="Example: yd apple")
         else:
             try:
                 res = RequestBuilder.build(text)
+                self.tran_count += 1
                 # res.data.translation is str array contain translate result
-                translation_arr = json.loads(res.data)
-                if 'translation' not in translation_arr:
-                    raise TranslateFailException("translate failed, non key 'translation', input is %s" % text)
-
-                items = [
-                    ExtensionResultItem(name=item, description=item, icon='images/icon.png', on_enter=DoNothingAction())
-                    for item in translation_arr['translation']
-                ]
+                translated_arr = json.loads(res.data)
+                items = []
+                if 'translation' not in translated_arr:
+                    raise TranslateFailException("translate failed, non key 'translation'")
+                for item in translated_arr['translation']:
+                    items.append(ExtensionResultItem(name=item,
+                                                     description='tran count is %d' % self.tran_count,
+                                                     icon='images/icon.png',
+                                                     on_enter=DoNothingAction()))
                 return RenderResultListAction(items)
             except ParseQueryError:
                 return self.get_action_to_render(name="Incorrect input",
                                                  description="Example: yd apple %s" % text)
             except TranslateFailException as e:
                 return self.get_action_to_render(name="translate failed",
-                                                 description="reason: %s" % e)
+                                                 description='tran count is %d' % self.tran_count)
             except Exception as e:
                 traceback.print_exc()
                 return self.get_action_to_render(name="extension error!",
-                                                 description="%s" % e)
+                                                 description='tran count is %d' % self.tran_count)
 
 
 class TranslateFailException(Exception):
     pass
+
+class CountDown:
+    def __init__(self):
+        self.countdown_time = PreferencesInfo.delay

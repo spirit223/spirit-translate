@@ -15,5 +15,4 @@ get youdao api
 
 ## todo
 - error deal    
-  - 确保原文编码为UTF-8
-  - 
+  - 输入完成后执行翻译
