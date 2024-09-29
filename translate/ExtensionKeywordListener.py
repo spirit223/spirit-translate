@@ -8,6 +8,9 @@ from translate.RequestBuilder import RequestBuilder
 import json
 import traceback
 import threading
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 # todo: use timer judge whether user stop input, timer don't process it!
@@ -44,6 +47,7 @@ class ExtensionKeywordListener(EventListener):
                 translated_arr = json.loads(res.data)
                 items = []
                 if 'translation' not in translated_arr:
+                    logger.error(translated_arr)
                     raise TranslateFailException("translate failed, non key 'translation'")
                 for item in translated_arr['translation']:
                     items.append(ExtensionResultItem(name=item,

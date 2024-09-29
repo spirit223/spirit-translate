@@ -16,7 +16,7 @@ class RequestBuilder:
         url = "openapi.youdao.com"
         path = "/api"
         salt = RequestBuilder.build_slat()
-        cur_time = time.time()
+        cur_time = int(time.time())
         app_id = PreferencesInfo.app_id
         app_secret = PreferencesInfo.app_secrit
         if from_lan is None and to_lan is None:
@@ -40,8 +40,6 @@ class RequestBuilder:
             'signType': sign_type,
             'curtime': cur_time
         }
-        print("salt is %s", salt)
-        print("time is %s", cur_time)
         conn = http.client.HTTPSConnection(url)
         encoded_data = urllib.parse.urlencode(data)
         headers = {"Content-Type": "application/x-www-form-urlencoded"}
