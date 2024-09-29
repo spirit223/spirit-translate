@@ -32,9 +32,7 @@ class ExtensionKeywordListener(EventListener):
         return RenderResultListAction([item])
 
     def on_event(self, event, extension):
-        query = event.get_argument()
-
-    def callback(self, text):
+        text = event.get_argument()
         if text is None:
             return self.get_action_to_render(name="translate",
                                              description="Example: yd apple")
