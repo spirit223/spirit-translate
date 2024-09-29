@@ -12,6 +12,13 @@ class RequestBuilder:
     sha256_hash = hashlib.sha256()
 
     @staticmethod
+    def truncate(q):
+        if q is None:
+            return None
+        size = len(q)
+        return q if size <= 20 else q[0:10] + str(size) + q[size - 10:size]
+
+    @staticmethod
     def build(text:str, from_lan=None, to_lan=None, sign_type='v3'):
         url = "openapi.youdao.com"
         path = "/api"
@@ -50,22 +57,19 @@ class RequestBuilder:
         return Response(response.status, response_data)
 
     @staticmethod
-    def get_input_str(text:str):
-        q_len = len(text)
-        if q_len > 20:
-            return text[:10] + str(q_len) + text[10:]
-        else:
-            return text
+    def build_slat():
+        return str(uuid.uuid1())
 
     @staticmethod
-    def build_slat():
-        return str(uuid.uuid1().int)
+    def encrypt(s):
+        hash_algorithm = hashlib.sha256()
+        hash_algorithm.update(s.encode('utf-8'))
+        return hash_algorithm.hexdigest()
 
     @staticmethod
     def build_sign(text: str, salt:str, cur_time: int, app_id:str, app_secret:str):
-        input_str = RequestBuilder.get_input_str(text)
-        RequestBuilder.sha256_hash.update(str(app_id + input_str + str(salt) + str(cur_time) + app_secret).encode('utf-8'))
-        return RequestBuilder.sha256_hash.hexdigest()
+        signStr = app_id + RequestBuilder.truncate(text) + salt + cur_time + app_secret
+        return RequestBuilder.encrypt(signStr)
 
 class Response:
     def __init__(self, status:int, data:str):

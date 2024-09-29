@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
