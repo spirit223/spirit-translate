@@ -12,7 +12,7 @@ class RequestBuilder:
     sha256_hash = hashlib.sha256()
 
     @staticmethod
-    def truncate(q):
+    def truncate(q:str):
         if q is None:
             return None
         size = len(q)
@@ -68,8 +68,8 @@ class RequestBuilder:
 
     @staticmethod
     def build_sign(text: str, salt:str, cur_time: int, app_id:str, app_secret:str):
-        signStr = app_id + RequestBuilder.truncate(text) + salt + cur_time + app_secret
-        return RequestBuilder.encrypt(signStr)
+        sign_str = app_id + RequestBuilder.truncate(text) + salt + str(cur_time) + str(app_secret)
+        return RequestBuilder.encrypt(sign_str)
 
 class Response:
     def __init__(self, status:int, data:str):
