@@ -9,8 +9,6 @@ import json
 import traceback
 import threading
 
-from translate.TranslateLoop import TranslateLoop
-
 
 # todo: use timer judge whether user stop input, timer don't process it!
 class ExtensionKeywordListener(EventListener):
