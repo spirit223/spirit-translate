@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 class ExtensionKeywordListener(EventListener):
     def __init__(self):
         self.tran_count = 0
-        self.count = 0
+        self.count = 1
 
 
     def get_action_to_render(self, name, description, on_enter=None):
@@ -64,11 +64,13 @@ class ExtensionKeywordListener(EventListener):
                                                  description="Example: yd apple %s" % text)
             except TranslateFailException as e:
                 return self.get_action_to_render(name="translate failed",
-                                                 description='tran count is %d' % self.tran_count)
+                                                 description='tran count is %d' % self.tran_count,
+                                                 on_enter=DoNothingAction())
             except Exception as e:
                 traceback.print_exc()
                 return self.get_action_to_render(name="extension error!",
-                                                 description='tran count is %d' % self.tran_count)
+                                                 description='tran count is %d' % self.tran_count,
+                                                 on_enter=DoNothingAction())
 
 
 class TranslateFailException(Exception):
