@@ -13,7 +13,7 @@ class PreferencesListener(EventListener):
         PreferencesInfo.app_id = event.preferences['appId']
         PreferencesInfo.app_secrit = event.preferences['appSecrit']
         PreferencesInfo.delay = event.preferences['delay']
-        print('PreferencesInfo.delay is %f' % PreferencesInfo.delay)
+        print('PreferencesInfo.delay is %s' % PreferencesInfo.delay)
 
 
 class PreferencesUpdateListener(EventListener):
@@ -25,4 +25,4 @@ class PreferencesUpdateListener(EventListener):
             PreferencesInfo.app_secrit = event.new_value
         elif event.id == 'delay':
             PreferencesInfo.delay = event.new_value
-            print('PreferencesInfo.delay is %f' % PreferencesInfo.delay)
+            print('PreferencesInfo.delay is %s' % PreferencesInfo.delay)
