@@ -21,7 +21,7 @@ class ExtensionKeywordListener(EventListener):
 
     def __init__(self):
         self.tran_count = 0
-        self.delay = PreferencesInfo.delay
+        self.delay = PreferencesInfo.get_delay()
         self.timer = None
 
     def get_action_to_render(self, name, description, on_enter=None):
