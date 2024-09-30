@@ -53,7 +53,7 @@ class ExtensionKeywordListener(EventListener):
                     raise TranslateFailException("translate failed, non key 'translation'")
                 for item in translated_arr['translation']:
                     items.append(ExtensionResultItem(name=item,
-                                                     description='tran count is %d' % self.tran_count,
+                                                     description='press enter to copy result',
                                                      icon='images/icon.png',
                                                      on_enter=CopyToClipboardAction(item)))
                 return RenderResultListAction(items)
