@@ -4,22 +4,31 @@ from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
 from ulauncher.api.shared.action.DoNothingAction import DoNothingAction
 from ulauncher.api.shared.action.CopyToClipboardAction import CopyToClipboardAction
-from translate.LanguageDiscriminator import ParseQueryError, LanguageDiscriminator
+from translate.LanguageDiscriminator import ParseQueryError
 from translate.PreferencesInfo import PreferencesInfo
 from translate.RequestBuilder import RequestBuilder
 import json
 import traceback
 import threading
 import logging
+import queue
 
 logger = logging.getLogger(__name__)
 
 
 class ExtensionKeywordListener(EventListener):
+    resultQueue = queue.Queue()
+
     def __init__(self):
         self.tran_count = 0
-        self.count = 1
+        self.delay = PreferencesInfo.delay
+        self.timer = None
 
+    def restart(self):
+        self.timer.cancel()
+        self.timer.start()
+    def start_timer(self):
+        self.timer.start()
 
     def get_action_to_render(self, name, description, on_enter=None):
         """
@@ -36,43 +45,48 @@ class ExtensionKeywordListener(EventListener):
 
         return RenderResultListAction([item])
 
+    def do_translate(self, text):
+        try:
+            response = RequestBuilder.build(text)
+            self.tran_count += 1
+            translated_arr = json.loads(response.data)
+            if 'translation' not in translated_arr:
+                print("nothing translated result, [%s]" % translated_arr)
+                raise TranslateFailException("translate failed, non key 'translation'")
+            items = []
+            for item in translated_arr['translation']:
+                items.append(ExtensionResultItem(name=item,
+                                                 description='press enter to copy result',
+                                                 icon='images/icon.png',
+                                                 on_enter=CopyToClipboardAction(item)))
+            ExtensionKeywordListener.resultQueue.put(RenderResultListAction(items))
+        except ParseQueryError:
+            traceback.print_exc()
+            ExtensionKeywordListener.resultQueue.put(RenderResultListAction(self.get_action_to_render(name="Incorrect input",
+                                         description="Example: yd apple %s" % text,
+                                         on_enter=DoNothingAction())))
+        except TranslateFailException as e:
+            traceback.print_exc()
+            ExtensionKeywordListener.resultQueue.put(self.get_action_to_render(name="translate failed",
+                                         description='tran count is %d' % self.tran_count,
+                                         on_enter=DoNothingAction()))
+
     def on_event(self, event, extension):
-        logger.info("trigger KeywordQueryEvent! %d" % self.count)
-        self.count += 1
         text = event.get_argument()
         if text is None:
             return self.get_action_to_render(name="translate",
                                              description="Example: yd apple")
         else:
-            try:
-                res = RequestBuilder.build(text)
-                self.tran_count += 1
-                # res.data.translation is str array contain translate result
-                translated_arr = json.loads(res.data)
-                items = []
-                if 'translation' not in translated_arr:
-                    logger.error(translated_arr)
-                    raise TranslateFailException("translate failed, non key 'translation'")
-                for item in translated_arr['translation']:
-                    items.append(ExtensionResultItem(name=item,
-                                                     description='press enter to copy result',
-                                                     icon='images/icon.png',
-                                                     on_enter=CopyToClipboardAction(item)))
-                return RenderResultListAction(items)
-            except ParseQueryError:
-                traceback.print_exc()
-                return self.get_action_to_render(name="Incorrect input",
-                                                 description="Example: yd apple %s" % text,
-                                                 on_enter=DoNothingAction())
-            except TranslateFailException as e:
-                traceback.print_exc()
-                return self.get_action_to_render(name="translate failed",
-                                                 description='tran count is %d' % self.tran_count,
-                                                 on_enter=DoNothingAction())
+            if self.timer:
+                self.timer.cancel()
+            if not ExtensionKeywordListener.resultQueue.empty():
+                ExtensionKeywordListener.resultQueue = queue.Queue()
+            self.timer = threading.Timer(self.delay, self.do_translate, text)
+            self.timer.start()
+            self.timer.join()
+            return ExtensionKeywordListener.resultQueue.get()
+
 
 class TranslateFailException(Exception):
     pass
 
-class CountDown:
-    def __init__(self):
-        self.countdown_time = PreferencesInfo.delay

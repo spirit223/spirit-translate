@@ -21,6 +21,9 @@ open Ulaucher's extension page, paste the `appId` and `appSecret`.
 ![](./images/tran2.png)
 
 here, enjoy it!
-## todo
+# todo
 - add delay (Enter the end delay time before performing translation)
 - add other language
+
+计时器在事件初始化阶段不初始化， 在有用户输入后再初始化
+事件触发时启动计时器，如果计时器未结束用户重新输入则重置计时器，计时器结束用户未输出触发后续翻译动作
