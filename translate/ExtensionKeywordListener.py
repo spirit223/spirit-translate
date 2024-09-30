@@ -75,6 +75,7 @@ class ExtensionKeywordListener(EventListener):
                 self.timer.cancel()
             if not ExtensionKeywordListener.resultQueue.empty():
                 ExtensionKeywordListener.resultQueue = queue.Queue()
+            print("delay is %f" % self.delay)
             self.timer = threading.Timer(self.delay, self.do_translate, args=(text,))
             self.timer.start()
             self.timer.join()
