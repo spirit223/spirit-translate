@@ -8,17 +8,14 @@ class PreferencesInfo:
 
     @staticmethod
     def get_delay():
-        print('get delay is %s' % PreferencesInfo._delay)
         return float(PreferencesInfo._delay)
 
     @staticmethod
     def get_app_id():
-        print('get app_id is %s' % PreferencesInfo._delay)
         return PreferencesInfo._app_id
 
     @staticmethod
     def get_app_secrit():
-        print('get app_secrit is %s' % PreferencesInfo._delay)
         return PreferencesInfo._app_secrit
 
     @staticmethod
@@ -30,11 +27,9 @@ class PreferencesInfo:
 
 class PreferencesListener(EventListener):
     def on_event(self, event, extension):
-        print('update preferences')
         PreferencesInfo._app_id = event.preferences['appId']
         PreferencesInfo._app_secrit = event.preferences['appSecrit']
         PreferencesInfo._delay = event.preferences['delay']
-        print('PreferencesInfo.delay is %s' % PreferencesInfo._delay)
 
 
 class PreferencesUpdateListener(EventListener):
@@ -46,4 +41,3 @@ class PreferencesUpdateListener(EventListener):
             PreferencesInfo._app_secrit = event.new_value
         elif event.id == 'delay':
             PreferencesInfo._delay = event.new_value
-            print('PreferencesInfo.delay is %s' % PreferencesInfo._delay)

@@ -24,8 +24,8 @@ class RequestBuilder:
         path = "/api"
         salt = RequestBuilder.build_slat()
         cur_time = int(time.time())
-        app_id = PreferencesInfo._app_id
-        app_secret = PreferencesInfo._app_secrit
+        app_id = PreferencesInfo.get_app_id()
+        app_secret = PreferencesInfo.get_app_secrit()
         if from_lan is None and to_lan is None:
             from_lan = LanguageDiscriminator.detect_language(text)
             if from_lan == 'zh-CHS':
