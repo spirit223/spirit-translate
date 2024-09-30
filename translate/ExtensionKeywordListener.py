@@ -60,18 +60,15 @@ class ExtensionKeywordListener(EventListener):
                                                      on_enter=CopyToClipboardAction(item)))
                 return RenderResultListAction(items)
             except ParseQueryError:
+                traceback.print_exc()
                 return self.get_action_to_render(name="Incorrect input",
-                                                 description="Example: yd apple %s" % text)
+                                                 description="Example: yd apple %s" % text,
+                                                 on_enter=DoNothingAction())
             except TranslateFailException as e:
+                traceback.print_exc()
                 return self.get_action_to_render(name="translate failed",
                                                  description='tran count is %d' % self.tran_count,
                                                  on_enter=DoNothingAction())
-            except Exception as e:
-                traceback.print_exc()
-                return self.get_action_to_render(name="extension error!",
-                                                 description='tran count is %d' % self.tran_count,
-                                                 on_enter=DoNothingAction())
-
 
 class TranslateFailException(Exception):
     pass
