@@ -55,7 +55,7 @@ class ExtensionKeywordListener(EventListener):
                     items.append(ExtensionResultItem(name=item,
                                                      description='tran count is %d' % self.tran_count,
                                                      icon='images/icon.png',
-                                                     on_enter=CopyToClipboardAction()))
+                                                     on_enter=CopyToClipboardAction(item)))
                 return RenderResultListAction(items)
             except ParseQueryError:
                 return self.get_action_to_render(name="Incorrect input",
