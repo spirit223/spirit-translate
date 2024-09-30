@@ -15,7 +15,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-# todo: use timer judge whether user stop input, timer don't process it!
 class ExtensionKeywordListener(EventListener):
     def __init__(self):
         self.tran_count = 0
@@ -26,7 +25,7 @@ class ExtensionKeywordListener(EventListener):
         generate result item
         :param name: title
         :param description: second title
-        :param on_enter: what to do(todo copy result by ItemCustomAction)
+        :param on_enter: what to do
         :return: RenderResultListAction
         """
         item = ExtensionResultItem(name=name,
@@ -37,6 +36,8 @@ class ExtensionKeywordListener(EventListener):
         return RenderResultListAction([item])
 
     def on_event(self, event, extension):
+        i = 0
+        print("trigger KeywordQueryEvent! %d" % ++i)
         text = event.get_argument()
         if text is None:
             return self.get_action_to_render(name="translate",
