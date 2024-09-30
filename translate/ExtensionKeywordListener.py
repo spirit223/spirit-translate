@@ -3,6 +3,7 @@ from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
 from ulauncher.api.shared.action.DoNothingAction import DoNothingAction
+from ulauncher.api.shared.action.CopyToClipboardAction import CopyToClipboardAction
 from translate.LanguageDiscriminator import ParseQueryError, LanguageDiscriminator
 from translate.PreferencesInfo import PreferencesInfo
 from translate.RequestBuilder import RequestBuilder
@@ -54,7 +55,7 @@ class ExtensionKeywordListener(EventListener):
                     items.append(ExtensionResultItem(name=item,
                                                      description='tran count is %d' % self.tran_count,
                                                      icon='images/icon.png',
-                                                     on_enter=DoNothingAction()))
+                                                     on_enter=CopyToClipboardAction()))
                 return RenderResultListAction(items)
             except ParseQueryError:
                 return self.get_action_to_render(name="Incorrect input",
