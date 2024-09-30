@@ -20,5 +20,5 @@ open Ulaucher's extension page, paste the `appId` and `appSecret`.
 
 here, enjoy it!
 ## todo
-- add copy result function
 - add delay (Enter the end delay time before performing translation)
+- add other language
