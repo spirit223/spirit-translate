@@ -9,6 +9,7 @@ class PreferencesInfo:
 
 class PreferencesListener(EventListener):
     def on_event(self, event, extension):
+        print('update preferences')
         PreferencesInfo.app_id = event.preferences['appId']
         PreferencesInfo.app_secrit = event.preferences['appSecrit']
         PreferencesInfo.delay = event.preferences['delay']
@@ -16,6 +17,7 @@ class PreferencesListener(EventListener):
 
 class PreferencesUpdateListener(EventListener):
     def on_event(self, event, extension):
+        print('preferences updated')
         if event.id == 'appId':
             PreferencesInfo.app_id = event.new_value
         elif event.id == 'appSecrit':
