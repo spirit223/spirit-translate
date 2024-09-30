@@ -77,6 +77,7 @@ class ExtensionKeywordListener(EventListener):
                 ExtensionKeywordListener.resultQueue = queue.Queue()
             self.timer = threading.Timer(self.delay, self.do_translate, args=(text,))
             self.timer.start()
+            print('timer is running, delay is %s' % self.delay)
             self.timer.join()
             return ExtensionKeywordListener.resultQueue.get()
 
