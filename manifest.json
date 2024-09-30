@@ -33,7 +33,7 @@
         "id": "delay",
         "type": "input",
         "name": "translate delay",
-        "description": "How many seconds after the input ends to perform translation",
+        "description": "How many seconds after the input ends to perform translation, can float like 0.5, 0.2",
         "default_value": 2
       }
     ]
