@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 class ExtensionKeywordListener(EventListener):
     def __init__(self):
         self.tran_count = 0
+        self.count = 0
 
 
     def get_action_to_render(self, name, description, on_enter=None):
@@ -35,9 +36,8 @@ class ExtensionKeywordListener(EventListener):
 
         return RenderResultListAction([item])
 
-    i:int = 0
     def on_event(self, event, extension):
-        print("trigger KeywordQueryEvent! %d" % ++i)
+        print("trigger KeywordQueryEvent! %d" % ++self.count)
         text = event.get_argument()
         if text is None:
             return self.get_action_to_render(name="translate",
