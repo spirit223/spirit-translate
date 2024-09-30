@@ -35,8 +35,8 @@ class ExtensionKeywordListener(EventListener):
 
         return RenderResultListAction([item])
 
+    i:int = 0
     def on_event(self, event, extension):
-        i = 0
         print("trigger KeywordQueryEvent! %d" % ++i)
         text = event.get_argument()
         if text is None:
