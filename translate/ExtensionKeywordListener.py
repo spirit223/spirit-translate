@@ -21,7 +21,6 @@ class ExtensionKeywordListener(EventListener):
 
     def __init__(self):
         self.tran_count = 0
-        self.delay = PreferencesInfo.get_delay()
         self.timer = None
 
     def get_action_to_render(self, name, description, on_enter=None):
@@ -75,9 +74,9 @@ class ExtensionKeywordListener(EventListener):
                 self.timer.cancel()
             if not ExtensionKeywordListener.resultQueue.empty():
                 ExtensionKeywordListener.resultQueue = queue.Queue()
-            self.timer = threading.Timer(self.delay, self.do_translate, args=(text,))
+            self.timer = threading.Timer(PreferencesInfo.get_delay(), self.do_translate, args=(text,))
             self.timer.start()
-            print('timer is running, delay is %s' % self.delay)
+            print('timer is running, delay is %s' % PreferencesInfo.get_delay())
             self.timer.join()
             return ExtensionKeywordListener.resultQueue.get()
 
