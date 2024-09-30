@@ -9,7 +9,7 @@ class PreferencesInfo:
     @staticmethod
     def get_delay():
         print('get delay is %s' % PreferencesInfo._delay)
-        return PreferencesInfo._delay
+        return float(PreferencesInfo._delay)
 
     @staticmethod
     def get_app_id():
